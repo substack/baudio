@@ -36,7 +36,7 @@ module.exports = function (opts, fn) {
     process.nextTick(function loop () {
         var buf = new Buffer(size);
         for (var i = 0; i <= size - 2; i += 2) {
-            var n = fn(t);
+            var n = fn.call(stream, t);
             t += 1 / rate;
             buf.writeInt16LE(signed(n), i);
         }
