@@ -1,4 +1,4 @@
-var baudio = require('./');
+var baudio = require('../');
 var spawn = require('child_process').spawn;
 var aplay = spawn('aplay', [ '-r', '44k', '-c', '2', '-f', 'S16_LE' ]);
 

@@ -1,0 +1,28 @@
+{
+    "name" : "baudio",
+    "version" : "0.0.0",
+    "description" : "generate audio streams with functions",
+    "main" : "index.js",
+    "directories" : {
+        "example" : "example"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/substack/baudio.git"
+    },
+    "homepage" : "https://github.com/substack/baudio",
+    "keywords" : [
+        "audio",
+        "raw",
+        "sound",
+        "wav",
+        "sine",
+        "stream"
+    ],
+    "author" : {
+        "name" : "James Halliday",
+        "email" : "mail@substack.net",
+        "url" : "http://substack.net"
+    },
+    "license" : "MIT"
+}
