@@ -23,7 +23,7 @@ baudio(function (t) {
 var baudio = require('baudio')
 ```
 
-## baudio(opts, fn)
+## var b = baudio(opts, fn)
 
 Return a readable stream of raw audio data based on the function `fn(t)` where
 `t` is the time in seconds.
@@ -31,6 +31,23 @@ Return a readable stream of raw audio data based on the function `fn(t)` where
 The `opts.rate` is the rate of the output stream in Hz, default 44000.
 
 The `opts.size` is the size of data chunks to emit, default 1024.
+
+# playing
+
+The `aplay` command in linux is useful for playing the audio stream:
+
+``` js
+b.pipe(spawn('aplay',['-r','44k','-c','2','-f','S16_LE']).stdin)
+```
+
+# recording
+
+You can use [sox](http://sox.sourceforge.net) to save the output stream to a
+file:
+
+``` js
+b.pipe(spawn('sox',['-r','44k','-c','2','-t','s16','-','-o','ramp.ogg']).stdin)
+```
 
 # install
 

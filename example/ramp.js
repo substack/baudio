@@ -1,8 +1,7 @@
 var baudio = require('../');
 var spawn = require('child_process').spawn;
-var aplay = spawn('aplay', [ '-r', '44k', '-c', '2', '-f', 'S16_LE' ]);
 
-baudio(function (t) {
+var b = baudio(function (t) {
     var clips = [
         function () {
             return Math.sin(
@@ -24,4 +23,12 @@ baudio(function (t) {
         }
     ];
     return clips[Math.floor(t * 25) % clips.length]();
-}).pipe(aplay.stdin);
+});
+
+// to play:
+var aplay = spawn('aplay',['-r','44k','-c','2','-f','S16_LE']);
+b.pipe(aplay.stdin);
+
+// to record:
+var sox = spawn('sox',['-r','44k','-c','2','-t','s16','-','-o','ramp.ogg']);
+b.pipe(sox.stdin);
