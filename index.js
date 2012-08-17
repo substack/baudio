@@ -12,7 +12,7 @@ module.exports = function (opts, fn) {
     var size = opts.size || 2048;
     var rate = opts.rate || 44000;
     
-    var t = 0;
+    var t = 0, step = 0;
     
     stream.end = function () {
         stream.ended = true;
@@ -36,7 +36,8 @@ module.exports = function (opts, fn) {
     process.nextTick(function loop () {
         var buf = new Buffer(size);
         for (var i = 0; i <= size - 2; i += 2) {
-            var n = fn.call(stream, t);
+            var n = fn.call(stream, t, step);
+            step ++;
             t += 1 / rate;
             buf.writeInt16LE(signed(n), i);
         }
@@ -61,7 +62,7 @@ module.exports = function (opts, fn) {
 };
 
 function signed (n) {
-    if (n < 0) n += 1;
-    if (n > 1) n = n % 2;
-    return Math.floor(((1<<15) * n) - 1);
+    if (isNaN(n)) return 0;
+    var b = Math.pow(2, 15);
+    return Math.max(-b, Math.min(b, Math.floor((b * n) - 1)));
 }
