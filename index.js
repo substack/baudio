@@ -50,6 +50,7 @@ B.prototype.pause = function () {
 B.prototype.resume = function () {
     if (!this.paused) return;
     this.paused = false;
+    this.emit('resume');
 };
 
 B.prototype.push = function (fn) {
