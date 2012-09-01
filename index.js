@@ -114,8 +114,6 @@ B.prototype.play = function () {
         '-t', 's16',
         '-',
     ]);
-    ps.stdout.pipe(process.stdout, { end : false });
-    ps.stderr.pipe(process.stderr, { end : false });
     this.pipe(ps.stdin);
     return ps;
 };
@@ -128,8 +126,6 @@ B.prototype.record = function (file) {
         '-',
         '-o', file,
     ]);
-    ps.stderr.pipe(process.stderr, { end : false });
-    ps.stdout.pipe(process.stdout, { end : false });
     this.pipe(ps.stdin);
     return ps;
 };
