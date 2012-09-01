@@ -1,10 +1,10 @@
 var baudio = require('../');
-var spawn = require('child_process').spawn;
-var aplay = spawn('aplay', [ '-r', '44k', '-c', '2', '-f', 'S16_LE' ]);
 
 var n = 0;
-baudio(function (t) {
+var b = baudio(function (t) {
     var x = Math.sin(t * 262 + Math.sin(n));
     n += Math.sin(t);
     return x;
-}).pipe(aplay.stdin);
+});
+b.play();
+b.record('test.ogg');
