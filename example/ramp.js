@@ -1,34 +1,34 @@
 var baudio = require('../');
 var spawn = require('child_process').spawn;
 
-var b = baudio(function (t) {
-    var clips = [
-        function () {
-            return Math.sin(
-                (t % 15) * 150 * (t % 30)
-                * Math.floor(Math.sin(t) * 5)
-            );
-        },
-        function () {
-            var x = Math.sin(t / 10) * 5 + 1;
-            return Math.sin(800 * Math.pow(x, 3));
-        },
-        function () {
-            var x = (Math.sin(t / 20) + 1) * 10 * (t % 30);
-            return Math.sin(250 * Math.pow(x,1.5));
-        },
-        function () {
-            var x = 5 * ((t % 1) + 1);
-            return Math.sin(400 * Math.sin(Math.pow(x,1.5)));
-        }
-    ];
-    return clips[Math.floor(t * 25) % clips.length]();
+var b = baudio();
+
+b.push(function (t) {
+    return Math.sin(
+        (t % 15) * 150 * (t % 30)
+        * Math.floor(Math.sin(t) * 5)
+    ) + (t<<3) * (t & 0x7f) / 256;
 });
 
-// to play:
-var aplay = spawn('aplay',['-r','44k','-c','2','-f','S16_LE']);
-b.pipe(aplay.stdin);
+b.push((function () {
+    var c = 10;
+    return function (t, i) {
+        //var n = 20 + Math.floor(t / 3) * 3;
+        var n = 28;
+        c = c * (1 + Math.sin(i / 20000) / 10000);
+        return Math.sin(t * 5000)
+            * Math.max(0, Math.sin(t * n + c * Math.sin(t * 20)))
+        ;
+    };
+})());
 
-// to record:
-var sox = spawn('sox',['-r','44k','-c','2','-t','s16','-','-o','ramp.ogg']);
-b.pipe(sox.stdin);
+// to play:
+var play = spawn('play',[
+    '-c', b.channels.length,
+    '-r', '8k',
+    '-t', 's16',
+    '-'
+]);
+b.pipe(play.stdin);
+play.stdout.pipe(process.stdout, { end : false });
+play.stderr.pipe(process.stderr, { end : false });
