@@ -53,8 +53,12 @@ B.prototype.resume = function () {
     this.emit('resume');
 };
 
-B.prototype.push = function (fn) {
-    this.channels.push(fn);
+B.prototype.push = function (type, fn) {
+    if (typeof type === 'function') {
+        fn = type;
+        type = 'float';
+    }
+    this.channels.push([ type, fn ]);
 };
 
 B.prototype.loop = function () {
@@ -84,8 +88,16 @@ B.prototype.tick = function () {
     var buf = new Buffer(self.size);
     for (var i = 0; i <= self.size - 2; i += 2) {
         self.channels.forEach(function (ch) {
-            var n = ch.call(self, self.t, self.i);
-            buf.writeInt16LE(signed(n), i);
+            var n = ch[1].call(self, self.t, self.i);
+            if (ch[0] === 'float') {
+                buf.writeInt16LE(signed(n), i);
+            }
+            else {
+                var b = Math.pow(2, ch[0]);
+                var x = (Math.floor(n) % b) / b * Math.pow(2, 15);
+                if (isNaN(x)) x = 0;
+                buf.writeInt16LE(x, i);
+            }
         });
         self.i ++;
         self.t += 1 / self.rate;
@@ -96,9 +108,8 @@ B.prototype.tick = function () {
 function signed (n) {
     if (isNaN(n)) return 0;
     var b = Math.pow(2, 15);
-    var x = n === -1 ? -1 : n % 1;
     return n > 0
-        ? Math.floor((b * x) - 1)
-        : Math.ceil((b * x) - 1)
+        ? Math.min(b - 1, Math.floor((b * n) - 1))
+        : Math.max(-b, Math.ceil((b * n) - 1))
     ;
 }
