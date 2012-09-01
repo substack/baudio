@@ -6,15 +6,14 @@ generate audio streams with functions
 
 ``` js
 var baudio = require('baudio');
-var spawn = require('child_process').spawn;
-var aplay = spawn('aplay', [ '-r', '44k', '-c', '2', '-f', 'S16_LE' ]);
 
 var n = 0;
-baudio(function (t) {
+var b = baudio(function (t) {
     var x = Math.sin(t * 262 + Math.sin(n));
     n += Math.sin(t);
     return x;
-}).pipe(aplay.stdin);
+});
+b.play();
 ```
 
 # methods
@@ -25,29 +24,36 @@ var baudio = require('baudio')
 
 ## var b = baudio(opts, fn)
 
-Return a readable stream of raw audio data based on the function `fn(t)` where
-`t` is the time in seconds.
+Return a readable stream of raw audio data based on the channel functions
+provided. Passing `fn` is a short-hand for `b.push(fn)`.
 
 The `opts.rate` is the rate of the output stream in Hz, default 44000.
 
 The `opts.size` is the size of data chunks to emit, default 1024.
 
-# playing
+## b.push(type, fn)
 
-The `aplay` command in linux is useful for playing the audio stream:
+Push a new audio channel of `type` with the function `fn(t, i)` for the time in
+seconds `t` and a counter `i`.
 
-``` js
-b.pipe(spawn('aplay',['-r','44k','-c','2','-f','S16_LE']).stdin)
-```
+`type` defaults to `'float'` which expects inputs in the range `[-1,1]` and
+clips higher and lower values.
 
-# recording
+`type` can also be a power of 2 number of bits to use for each sample which
+expects an integer output value in `[0,Math.pow(2,type)-1]`.
 
-You can use [sox](http://sox.sourceforge.net) to save the output stream to a
-file:
+## b.play()
 
-``` js
-b.pipe(spawn('sox',['-r','44k','-c','2','-t','s16','-','-o','ramp.ogg']).stdin)
-```
+Play the audio demo with the [play command](http://sox.sourceforge.net/).
+
+You can also call `b.pipe()` to handle the output stream yourself.
+
+## b.record(file)
+
+Save the audio stream to `file` using the
+[sox command](http://sox.sourceforge.net/).
+
+You can also call `b.pipe()` to handle the output stream yourself.
 
 # install
 

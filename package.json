@@ -1,10 +1,13 @@
 {
     "name" : "baudio",
-    "version" : "0.0.0",
+    "version" : "0.1.0",
     "description" : "generate audio streams with functions",
     "main" : "index.js",
     "directories" : {
         "example" : "example"
+    },
+    "dependencies" : {
+        "inherits" : "~1.0.0"
     },
     "repository" : {
         "type" : "git",
