@@ -1,5 +1,6 @@
 var Stream = require('stream');
 var inherits = require('inherits');
+var spawn = require('child_process').spawn;
 
 module.exports = function (opts, fn) {
     if (typeof opts === 'function') {
@@ -103,6 +104,18 @@ B.prototype.tick = function () {
         self.t += 1 / self.rate;
     }
     return buf;
+};
+
+B.prototype.play = function () {
+    // using the play command from http://sox.sourceforge.net/
+    var ps = spawn('play', [
+        '-c', this.channels.length,
+        '-r', '8k',
+        '-t', 's16',
+        '-'
+    ]);
+    this.pipe(ps.stdin);
+    return ps;
 };
 
 function signed (n) {

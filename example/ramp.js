@@ -22,13 +22,4 @@ b.push((function () {
     };
 })());
 
-// to play:
-var play = spawn('play',[
-    '-c', b.channels.length,
-    '-r', '8k',
-    '-t', 's16',
-    '-'
-]);
-b.pipe(play.stdin);
-play.stdout.pipe(process.stdout, { end : false });
-play.stderr.pipe(process.stderr, { end : false });
+b.play();
