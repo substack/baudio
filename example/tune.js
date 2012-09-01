@@ -7,4 +7,3 @@ var b = baudio(function (t) {
     return x;
 });
 b.play();
-b.record('test.ogg');

@@ -23,4 +23,3 @@ b.push((function () {
 })());
 
 b.play();
-b.record('test.ogg');
