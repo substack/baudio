@@ -94,7 +94,7 @@ B.prototype.tick = function () {
     for (var i = 0; i < buf.length; i += 2) {
         var ch = self.channels[(i / 2) % self.channels.length];
         var t = self.t + Math.floor(i / 2) / self.rate / self.channels.length;
-        var counter = self.i + Math.floor(i / 2) / self.channels.length;
+        var counter = self.i + Math.floor(i / 2 / self.channels.length);
         
         var value = 0;
         var n = ch[1].call(self, t, counter);
