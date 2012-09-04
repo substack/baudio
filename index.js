@@ -118,26 +118,44 @@ B.prototype.tick = function () {
     return buf;
 };
 
-B.prototype.play = function () {
+function mergeArgs (opts, args) {
+    Object.keys(opts || {}).forEach(function (key) {
+        args[key] = opts[key];
+    });
+    
+    return Object.keys(args).reduce(function (acc, key) {
+        var dash = key.length === 1 ? '-' : '--';
+        return acc.concat(dash + key, args[key]);
+    }, []);
+}
+
+B.prototype.play = function (opts) {
     // using the play command from http://sox.sourceforge.net/
-    var ps = spawn('play', [
-        '-c', this.channels.length,
-        '-r', this.rate,
-        '-t', 's16',
-        '-',
-    ]);
+    
+    var ps = spawn('play', mergeArgs(opts, {
+        'c' : this.channels.length,
+        'r' : this.rate,
+        't' : 's16',
+    }).concat('-'));
+    
     this.pipe(ps.stdin);
     return ps;
 };
 
-B.prototype.record = function (file) {
-    var ps = spawn('sox', [
-        '-c', this.channels.length,
-        '-r', this.rate,
-        '-t', 's16',
-        '-',
-        '-o', file,
-    ]);
+B.prototype.record = function (file, opts) {
+    // using the sox command from http://sox.sourceforge.net/
+    console.dir(mergeArgs(opts, {
+        'c' : this.channels.length,
+        'r' : this.rate,
+        't' : 's16',
+    }).concat('-', '-o', file));
+    
+    var ps = spawn('sox', mergeArgs(opts, {
+        'c' : this.channels.length,
+        'r' : this.rate,
+        't' : 's16',
+    }).concat('-', '-o', file));
+    
     this.pipe(ps.stdin);
     return ps;
 };
