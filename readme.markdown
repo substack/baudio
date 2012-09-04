@@ -42,18 +42,22 @@ clips higher and lower values.
 `type` can also be a power of 2 number of bits to use for each sample which
 expects an integer output value in `[0,Math.pow(2,type)-1]`.
 
-## b.play()
+## b.play(opts)
 
 Play the audio demo with the [play command](http://sox.sourceforge.net/).
 
 You can also call `b.pipe()` to handle the output stream yourself.
 
-## b.record(file)
+`opts` are passed directly through to sox.
+
+## b.record(file, opts)
 
 Save the audio stream to `file` using the
 [sox command](http://sox.sourceforge.net/).
 
 You can also call `b.pipe()` to handle the output stream yourself.
+
+`opts` are passed directly through to sox.
 
 # install
 
