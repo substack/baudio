@@ -29,8 +29,8 @@ b.push((function () {
             if (loop === Number(process.argv[2])) return b.end();
             freqs = mutate(freqs);
             
-            console.log('iteration ' + loop);
-            console.log('  ' + JSON.stringify(freqs));
+            console.error('iteration ' + loop);
+            console.error('  ' + JSON.stringify(freqs));
         }
         
         var f = freqs[Math.floor((t * 4) % freqs.length)];
