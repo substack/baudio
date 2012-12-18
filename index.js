@@ -54,12 +54,23 @@ B.prototype.resume = function () {
     this.emit('resume');
 };
 
-B.prototype.push = function (type, fn) {
+B.prototype.addChannel = function (type, fn) {
     if (typeof type === 'function') {
         fn = type;
         type = 'float';
     }
-    this.channels.push([ type, fn ]);
+    this.channels.push([ type, [ fn ].filter(Boolean) ]);
+};
+
+B.prototype.push = function (ix, fn) {
+    if (typeof ix === 'function') {
+        fn = ix;
+        ix = 0;
+    }
+    if (!this.channels[ix]) {
+        this.channels[ix] = [ 'float', [] ];
+    }
+    this.channels[ix][1].push(fn);
 };
 
 B.prototype.loop = function () {
@@ -97,7 +108,12 @@ B.prototype.tick = function () {
         var counter = self.i + Math.floor(i / 2 / self.channels.length);
         
         var value = 0;
-        var n = ch[1].call(self, t, counter);
+        var n = 0;
+        for (var j = 0; j < ch[1].length; j++) {
+            var x = ch[1][j].call(self, t, counter);
+            if (!isNaN(x)) n += x;
+        }
+        n /= ch[1].length;
         
         if (ch[0] === 'float') {
             value = signed(n);
