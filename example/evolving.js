@@ -26,6 +26,7 @@ b.push((function () {
         var n = Math.floor((t * 4) / freqs.length);
         if (loop !== n) {
             loop = n;
+            if (loop === Number(process.argv[2])) return b.end();
             freqs = mutate(freqs);
             
             console.log('iteration ' + loop);
@@ -60,3 +61,4 @@ b.push((function () {
 })());
 
 b.play();
+if (!process.stdout.isTTY) b.pipe(process.stdout);
