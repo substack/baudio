@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/substack/baudio.png)](http://travis-ci.org/substack/baudio)
 # baudio
 
 generate audio streams with functions
