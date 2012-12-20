@@ -145,32 +145,32 @@ function mergeArgs (opts, args) {
     }, []);
 }
 
-B.prototype.play = function (opts) {
+B.prototype.play = function (opts, fx) {
     // using the play command from http://sox.sourceforge.net/
     
     var ps = spawn('play', mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
         't' : 's16',
-    }).concat('-'));
+    }).concat('-', fx || []));
     
     this.pipe(ps.stdin);
     return ps;
 };
 
-B.prototype.record = function (file, opts) {
+B.prototype.record = function (file, opts, fx) {
     // using the sox command from http://sox.sourceforge.net/
     console.dir(mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
         't' : 's16',
-    }).concat('-', '-o', file));
+    }).concat('-', '-o', file, fx || []));
     
     var ps = spawn('sox', mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
         't' : 's16',
-    }).concat('-', '-o', file));
+    }).concat('-', '-o', file, fx || []));
     
     this.pipe(ps.stdin);
     return ps;

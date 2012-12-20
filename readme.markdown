@@ -48,7 +48,7 @@ clips higher and lower values.
 expects an integer output value in `[0,Math.pow(2,type)-1]`.
 
 
-## b.play(opts)
+## b.play(opts, fx)
 
 Play the audio demo with the [play command](http://sox.sourceforge.net/).
 
@@ -56,7 +56,10 @@ You can also call `b.pipe()` to handle the output stream yourself.
 
 `opts` are passed directly through to sox.
 
-## b.record(file, opts)
+`fx` is an array to append an effects chain to sox. ie,
+`b.play({}, ['echos', '0.8', '0.7', '400.0', '0.25', '63.0', '0.3']);`
+
+## b.record(file, opts, fx)
 
 Save the audio stream to `file` using the
 [sox command](http://sox.sourceforge.net/).
