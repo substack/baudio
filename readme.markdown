@@ -2,6 +2,8 @@
 
 generate audio streams with functions
 
+![oscilloscope](http://substack.net/images/oscilloscope.png)
+
 # example
 
 ``` js
