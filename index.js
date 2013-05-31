@@ -160,12 +160,6 @@ B.prototype.play = function (opts) {
 
 B.prototype.record = function (file, opts) {
     // using the sox command from http://sox.sourceforge.net/
-    console.dir(mergeArgs(opts, {
-        'c' : this.channels.length,
-        'r' : this.rate,
-        't' : 's16',
-    }).concat('-', '-o', file));
-    
     var ps = spawn('sox', mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
