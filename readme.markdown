@@ -4,6 +4,12 @@ generate audio streams with functions
 
 ![oscilloscope](http://substack.net/images/oscilloscope.png)
 
+# videos
+
+[the science and mathematics of music](http://www.youtube.com/watch?v=i_0DXxNeaQ0)
+
+[making algorithmic music with baudio](http://www.youtube.com/watch?v=2oz_SwhBixs)
+
 # example
 
 ``` js
