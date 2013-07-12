@@ -25,7 +25,7 @@ function B (opts) {
     self.t = 0;
     self.i = 0;
     
-    process.nextTick(function () {
+    setImmediate(function () {
         if (self.paused) {
             self.on('resume', self.loop.bind(self));
         }
@@ -84,13 +84,13 @@ B.prototype.loop = function () {
     else if (self.paused) {
         self.once('resume', function () {
             self.emit('data', buf);
-            process.nextTick(self.loop.bind(self));
+            setImmediate(self.loop.bind(self));
         });
     }
     else {
         self.emit('data', buf);
         if (self.ended) self.emit('end');
-        else process.nextTick(self.loop.bind(self));
+        else setImmediate(self.loop.bind(self));
     }
 };
 
