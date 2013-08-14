@@ -1,5 +1,5 @@
-var Stream = require('stream');
 var inherits = require('inherits');
+var Readable = require('readable-stream').Readable;
 var spawn = require('child_process').spawn;
 
 module.exports = function (opts, fn) {
@@ -15,44 +15,17 @@ module.exports = function (opts, fn) {
 
 function B (opts) {
     var self = this;
-    Stream.call(self);
+    Readable.call(self);
     
     self.readable = true;
-    self.size = opts.size || 2048;
     self.rate = opts.rate || 44000;
     
     self.channels = [];
     self.t = 0;
     self.i = 0;
-    
-    process.nextTick(function () {
-        if (self.paused) {
-            self.on('resume', self.loop.bind(self));
-        }
-        else self.loop();
-    });
 }
 
-inherits(B, Stream);
-
-B.prototype.end = function () {
-    this.ended = true;
-};
-
-B.prototype.destroy = function () {
-    this.destroyed = true;
-    this.emit('end');
-};
-
-B.prototype.pause = function () {
-    this.paused = true;
-};
-
-B.prototype.resume = function () {
-    if (!this.paused) return;
-    this.paused = false;
-    this.emit('resume');
-};
+inherits(B, Readable);
 
 B.prototype.addChannel = function (type, fn) {
     if (typeof type === 'function') {
@@ -73,31 +46,10 @@ B.prototype.push = function (ix, fn) {
     this.channels[ix][1].push(fn);
 };
 
-B.prototype.loop = function () {
+B.prototype._read = function (bytes) {
     var self = this;
     
-    var buf = self.tick();
-    
-    if (self.destroyed) {
-        // no more events
-    }
-    else if (self.paused) {
-        self.once('resume', function () {
-            self.emit('data', buf);
-            process.nextTick(self.loop.bind(self));
-        });
-    }
-    else {
-        self.emit('data', buf);
-        if (self.ended) self.emit('end');
-        else process.nextTick(self.loop.bind(self));
-    }
-};
-
-B.prototype.tick = function () {
-    var self = this;
-    
-    var buf = new Buffer(self.size * self.channels.length);
+    var buf = new Buffer(Math.floor(bytes / self.channels.length));
     function clamp (x) {
         return Math.max(Math.min(x, Math.pow(2,15)-1), -Math.pow(2,15));
     }
@@ -128,10 +80,10 @@ B.prototype.tick = function () {
         buf.writeInt16LE(clamp(value), i);
     }
     
-    self.i += self.size / 2;
-    self.t += self.size / 2 / self.rate;
+    self.i += buf.length / 2;
+    self.t += buf.length / 2 / self.rate;
     
-    return buf;
+    Readable.prototype.push.call(self, buf);
 };
 
 function mergeArgs (opts, args) {
