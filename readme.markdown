@@ -37,8 +37,6 @@ provided. Passing `fn` is a short-hand for `b.push(fn)`.
 
 The `opts.rate` is the rate of the output stream in Hz, default 44000.
 
-The `opts.size` is the size of data chunks to emit, default 1024.
-
 ## b.push(ix=0, fn)
 
 Push a new track onto the channel at index `ix` with the function `fn(t, i)` for
