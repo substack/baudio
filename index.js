@@ -47,7 +47,7 @@ B.prototype.push = function (ix, fn) {
 };
 
 B.prototype._read = function (bytes) {
-    if (bytes === undefined) bytes = 4096;
+    if (!bytes) bytes = 4096;
     var self = this;
     
     var buf = new Buffer(Math.floor(bytes / self.channels.length));
