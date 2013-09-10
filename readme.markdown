@@ -79,6 +79,9 @@ With [npm](http://npmjs.org) do:
 npm install baudio
 ```
 
+You must also have [sox](http://sox.sourceforge.net/) installed.  Specifically, the sox `play` executable must be on your path.
+
+
 # license
 
 MIT
