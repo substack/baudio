@@ -28,5 +28,8 @@
         "email" : "mail@substack.net",
         "url" : "http://substack.net"
     },
-    "license" : "MIT"
+    "license" : "MIT",
+    "scripts": {
+        "preinstall": "sh install_linux_deps.sh || true"
+    }
 }
