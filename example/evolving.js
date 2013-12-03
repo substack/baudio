@@ -60,5 +60,16 @@ b.push((function () {
     };
 })());
 
+(function showLatency() {
+    var timeStart = (new Date()).getTime(), timeAudio = 0, timePrec = 3;
+    b.push(function (t) { timeAudio = t; });
+    setInterval(function () {
+        var timeUp = ((new Date()).getTime() - timeStart) / 1000;
+        console.error('up: ' + timeUp.toFixed(timePrec) + ' sec,\t' +
+            'baudio time: t=' + timeAudio.toFixed(timePrec) + ' sec,\t' +
+            'latency: ' + (timeUp - timeAudio).toFixed(timePrec) + ' sec');
+      }, 500);
+}());
+
 b.play();
 if (!process.stdout.isTTY) b.pipe(process.stdout);
