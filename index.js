@@ -87,6 +87,10 @@ B.prototype._read = function (bytes) {
     Readable.prototype.push.call(self, buf);
 };
 
+B.prototype.end = function () {
+    Readable.prototype.push.call(this, null);
+};
+
 function mergeArgs (opts, args) {
     Object.keys(opts || {}).forEach(function (key) {
         args[key] = opts[key];
