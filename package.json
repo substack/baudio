@@ -10,10 +10,12 @@
     "example": "example"
   },
   "dependencies": {
+    "concat-stream": "^1.4.4",
     "inherits": "~1.0.0",
     "minimist": "0.0.8",
     "parse-duration": "^0.1.0",
-    "readable-stream": "~1.1.8"
+    "readable-stream": "~1.1.8",
+    "syntax-error": "^1.1.0"
   },
   "repository": {
     "type": "git",

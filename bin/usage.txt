@@ -2,7 +2,7 @@ usage: baudio FILE {-o OUTFILE} OPTIONS
 
   Play a javascript music FILE. FILE should export a method signature of:
 
-    module.exports = function (t) {
+    return function (t) {
         return Math.sin(2 * Math.PI * t * 441);
     };
   
