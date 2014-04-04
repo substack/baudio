@@ -44,6 +44,10 @@ function fromSource (src) {
         if (duration && t * 1000 >= duration) b.end()
         return fn(t, i);
     });
+    b.on('error', function (err) {
+        console.error(err.message || err);
+        process.exit(1);
+    });
     
     if (argv.o === '-') b.pipe(process.stdout)
     else if (argv.o) b.record(argv.o)

@@ -114,7 +114,6 @@ B.prototype.play = function (opts) {
 };
 
 B.prototype.record = function (file, opts) {
-    // using the sox command from http://sox.sourceforge.net/
     var ps = this._spawn('sox', mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
@@ -131,7 +130,7 @@ B.prototype._spawn = function (cmd, args) {
     ps.on('error', function (err) {
         if (err.code === 'ENOENT') {
             self.emit('error', new Error(
-                'failed to launch the `' + cmd + '` command.\n'
+                'Failed to launch the `' + cmd + '` command.\n'
                 + 'Make sure you have sox installed:\n\n'
                 + '  http://sox.sourceforge.net\n'
             ));
