@@ -104,27 +104,41 @@ function mergeArgs (opts, args) {
 }
 
 B.prototype.play = function (opts) {
-    // using the play command from http://sox.sourceforge.net/
-    
-    var ps = spawn('play', mergeArgs(opts, {
+    var ps = this._spawn('play', mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
         't' : 's16',
     }).concat('-'));
-    
     this.pipe(ps.stdin);
     return ps;
 };
 
 B.prototype.record = function (file, opts) {
     // using the sox command from http://sox.sourceforge.net/
-    var ps = spawn('sox', mergeArgs(opts, {
+    var ps = this._spawn('sox', mergeArgs(opts, {
         'c' : this.channels.length,
         'r' : this.rate,
         't' : 's16',
     }).concat('-', '-o', file));
     
     this.pipe(ps.stdin);
+    return ps;
+};
+
+B.prototype._spawn = function (cmd, args) {
+    var self = this;
+    var ps = spawn(cmd, args);
+    ps.on('error', function (err) {
+        if (err.code === 'ENOENT') {
+            self.emit('error', new Error(
+                'failed to launch the `' + cmd + '` command.\n'
+                + 'Make sure you have sox installed:\n\n'
+                + '  http://sox.sourceforge.net\n'
+            ));
+        }
+        else self.emit('error', err);
+    });
+    ps.stdin.on('error', function () {});
     return ps;
 };
 
