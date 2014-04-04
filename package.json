@@ -1,35 +1,37 @@
 {
-    "name" : "baudio",
-    "version" : "1.2.0",
-    "description" : "generate audio streams with functions",
-    "main" : "index.js",
-    "bin" : {
-        "baudio" : "bin/cmd.js"
-    },
-    "directories" : {
-        "example" : "example"
-    },
-    "dependencies" : {
-        "inherits" : "~1.0.0",
-        "readable-stream": "~1.1.8"
-    },
-    "repository" : {
-        "type" : "git",
-        "url" : "git://github.com/substack/baudio.git"
-    },
-    "homepage" : "https://github.com/substack/baudio",
-    "keywords" : [
-        "audio",
-        "raw",
-        "sound",
-        "wav",
-        "sine",
-        "stream"
-    ],
-    "author" : {
-        "name" : "James Halliday",
-        "email" : "mail@substack.net",
-        "url" : "http://substack.net"
-    },
-    "license" : "MIT"
+  "name": "baudio",
+  "version": "1.2.0",
+  "description": "generate audio streams with functions",
+  "main": "index.js",
+  "bin": {
+    "baudio": "bin/cmd.js"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "inherits": "~1.0.0",
+    "minimist": "0.0.8",
+    "parse-duration": "^0.1.0",
+    "readable-stream": "~1.1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/substack/baudio.git"
+  },
+  "homepage": "https://github.com/substack/baudio",
+  "keywords": [
+    "audio",
+    "raw",
+    "sound",
+    "wav",
+    "sine",
+    "stream"
+  ],
+  "author": {
+    "name": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net"
+  },
+  "license": "MIT"
 }
