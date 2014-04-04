@@ -84,10 +84,11 @@ B.prototype._read = function (bytes) {
     self.i += buf.length / 2;
     self.t += buf.length / 2 / self.rate;
     
-    Readable.prototype.push.call(self, buf);
+    if (!self._ended) Readable.prototype.push.call(self, buf);
 };
 
 B.prototype.end = function () {
+    this._ended = true;
     Readable.prototype.push.call(this, null);
 };
 
