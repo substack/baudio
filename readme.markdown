@@ -71,12 +71,58 @@ You can also call `b.pipe()` to handle the output stream yourself.
 
 `opts` are passed directly through to sox.
 
+# usage
+
+```
+usage: baudio FILE {-o OUTFILE} OPTIONS
+
+  Play a javascript music FILE. FILE should export a method signature of:
+
+    return function (t) {
+        return Math.sin(2 * Math.PI * t * 441);
+    };
+  
+  where the return value is between -1 and 1, inclusive. Values outside of the
+  domain -1 through 1 will be clipped.
+  
+  If -o is given, output will be written to OUTFILE instead. OUTFILE can be any
+  media file that sox supports for output: .mp3, .wav, .ogg, whatever.
+  
+  You can also use "-" for -o to write to stdout.
+
+  Extra OPTIONS include:
+
+    -d, --duration   when the played or recorded song should end as a
+                     human-parseable string
+
+  Example usage:
+
+    Play a song:
+
+      baudio beepboop.js
+
+    Play a song for 30 seconds:
+
+      baudio beepboop.js -d 30s
+
+    Record 3 minutes of audio to beepboop.mp3:
+
+      baudio beepboop.js -d 3m -o beepboop.mp3
+
+```
+
 # install
 
-With [npm](http://npmjs.org) do:
+With [npm](http://npmjs.org), to get the library do:
 
 ```
 npm install baudio
+```
+
+and to get the command, do:
+
+```
+npm install -g baudio
 ```
 
 # license
