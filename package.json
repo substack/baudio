@@ -3,6 +3,9 @@
     "version" : "1.2.0",
     "description" : "generate audio streams with functions",
     "main" : "index.js",
+    "bin" : {
+        "baudio" : "bin/cmd.js"
+    },
     "directories" : {
         "example" : "example"
     },
