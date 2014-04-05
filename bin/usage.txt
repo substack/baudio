@@ -16,9 +16,10 @@ usage: baudio FILE {-o OUTFILE} OPTIONS
 
   Extra OPTIONS include:
 
-    -d, --duration   when the played or recorded song should end as a
-                     human-parseable string
+    -d, --duration   How long the song should play as a human-parseable string.
 
+    -t, --offset     Jump to this time offset as a human-parseable string.
+ 
   Example usage:
 
     Play a song:
@@ -29,7 +30,7 @@ usage: baudio FILE {-o OUTFILE} OPTIONS
 
       baudio beepboop.js -d 30s
 
-    Record 3 minutes of audio to beepboop.mp3:
+    Record 3 minutes of audio to beepboop.mp3 starting at 20 seconds:
 
-      baudio beepboop.js -d 3m -o beepboop.mp3
+      baudio beepboop.js -d 3m -t 20s -o beepboop.mp3
 
