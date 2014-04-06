@@ -95,6 +95,8 @@ usage: baudio FILE {-o OUTFILE} OPTIONS
     -d, --duration   How long the song should play as a human-parseable string.
 
     -t, --offset     Jump to this time offset as a human-parseable string.
+
+    -f, --fade       Length of a trailing fade as a human-parseable string.
  
   Example usage:
 

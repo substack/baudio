@@ -9,7 +9,7 @@ var check = require('syntax-error');
 var baudio = require('../');
 
 var argv = minimist(process.argv.slice(2), {
-    alias: { i: 'infile', d: 'duration', t: 'offset' }
+    alias: { i: 'infile', d: 'duration', t: 'offset', f: 'fade' }
 });
 var file = argv.i || argv._[0];
 
@@ -36,18 +36,26 @@ function fromSource (src) {
         return process.exit(1);
     }
     
-    var duration = /^\d+$/.test(argv.d)
-        ? parseInt(argv.d, 10) * 1000
+    var duration = /^(\.\d+|\d+|\d+\.\d*)$/.test(argv.d)
+        ? parseFloat(argv.d) * 1000
         : parseDuration(argv.d || '0')
     ;
-    var offset = /^\d+$/.test(argv.t)
-        ? parseInt(argv.t, 10) * 1000
+    var fade = /^(\.\d+|\d+|\d+\.\d*)$/.test(argv.f)
+        ? parseFloat(argv.f) * 1000
+        : parseDuration(argv.f || '0')
+    ;
+    var offset = /^(\.\d+|\d+|\d+\.\d*)$/.test(argv.t)
+        ? parseFloat(argv.t) * 1000
         : parseDuration(argv.t || '0')
     ;
     var b = baudio(function (t, i) {
         if (duration && t * 1000 >= duration) b.end()
         t += offset;
-        return fn(t, i);
+        var res = fn(t, i);
+        if (fade && duration - t * 1000 <= fade) {
+            res *= Math.max(0, (duration - t * 1000) / fade);
+        }
+        return res;
     });
     b.on('error', function (err) {
         console.error(err.message || err);
