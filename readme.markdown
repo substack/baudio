@@ -30,29 +30,15 @@ b.play();
 var baudio = require('baudio')
 ```
 
-## var b = baudio(opts, fn)
+## var b = baudio(opts={}, fn)
 
-Return a readable stream of raw audio data based on the channel functions
-provided. Passing `fn` is a short-hand for `b.push(fn)`.
+Return a readable stream of raw audio data based on the function `fn(t,i)`.
+
+`fn(t,i)` is given the time in seconds `t` and the step counter `i`.
+`fn(t,i)` should return an amplitude value between -1 and 1, inclusive. Values
+outside that range will be clipped.
 
 The `opts.rate` is the rate of the output stream in Hz, default 44000.
-
-## b.push(ix=0, fn)
-
-Push a new track onto the channel at index `ix` with the function `fn(t, i)` for
-the time in seconds `t` and a counter `i`.
-
-## b.addChannel(type, fn)
-
-Push a new audio channel of `type`, optionally initializing the channel with a
-function `fn(t, i)`.
-
-`type` defaults to `'float'` which expects inputs in the range `[-1,1]` and
-clips higher and lower values.
-
-`type` can also be a power of 2 number of bits to use for each sample which
-expects an integer output value in `[0,Math.pow(2,type)-1]`.
-
 
 ## b.play(opts)
 
