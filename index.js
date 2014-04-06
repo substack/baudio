@@ -105,10 +105,10 @@ function mergeArgs (opts, args) {
 
 B.prototype.play = function (opts) {
     var ps = this._spawn('play', mergeArgs(opts, {
-        'c' : this.channels.length,
-        'r' : this.rate,
-        't' : 's16',
-    }).concat('-'));
+        'c': this.channels.length,
+        'r': this.rate,
+        't': 's16'
+    }).concat('-', '-q'));
     this.pipe(ps.stdin);
     return ps;
 };
@@ -118,7 +118,7 @@ B.prototype.record = function (file, opts) {
         'c' : this.channels.length,
         'r' : this.rate,
         't' : 's16',
-    }).concat('-', '-o', file));
+    }).concat('-', '-q', '-o', file));
     
     this.pipe(ps.stdin);
     return ps;
