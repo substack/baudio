@@ -16,7 +16,7 @@ function B (opts, fn) {
     Readable.call(this);
     
     this.readable = true;
-    this.rate = opts.rate || 44000;
+    this.rate = opts.rate || 44100;
     this._fn = fn;
     
     this.t = 0;

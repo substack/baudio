@@ -38,7 +38,7 @@ Return a readable stream of raw audio data based on the function `fn(t,i)`.
 `fn(t,i)` should return an amplitude value between -1 and 1, inclusive. Values
 outside that range will be clipped.
 
-The `opts.rate` is the rate of the output stream in Hz, default 44000.
+The `opts.rate` is the rate of the output stream in Hz, default 44100.
 
 ## b.play(opts)
 
