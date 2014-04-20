@@ -9,7 +9,10 @@ var check = require('syntax-error');
 var baudio = require('../');
 
 var argv = minimist(process.argv.slice(2), {
-    alias: { i: 'infile', d: 'duration', t: 'offset', f: 'fade' }
+    alias: {
+        i: 'infile', d: 'duration', t: 'offset', f: 'fade',
+        r: 'rate'
+    }
 });
 var file = argv.i || argv._[0];
 
@@ -48,7 +51,8 @@ function fromSource (src) {
         ? parseFloat(argv.t) * 1000
         : parseDuration(argv.t || '0')
     ;
-    var b = baudio(function (t, i) {
+    var opts = { rate: argv.rate };
+    var b = baudio(opts, function (t, i) {
         if (duration && t * 1000 >= duration) b.end()
         t += offset;
         var res = fn(t, i);
