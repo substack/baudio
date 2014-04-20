@@ -22,6 +22,8 @@ usage: baudio FILE {-o OUTFILE} OPTIONS
 
     -f, --fade       Length of a trailing fade as a human-parseable string.
  
+    -r, --rate       Bitrate to use. Default: 44k.
+ 
   Example usage:
 
     Play a song:
