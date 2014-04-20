@@ -52,6 +52,9 @@ function fromSource (src) {
         : parseDuration(argv.t || '0')
     ;
     var opts = { rate: argv.rate };
+    if (opts.rate) opts.rate = opts.rate.replace(/k$/i, '000');;
+    if (opts.rate) opts.rate = opts.rate.replace(/hz$/i, '');;
+    
     var b = baudio(opts, function (t, i) {
         if (duration && t * 1000 >= duration) b.end()
         t += offset;
