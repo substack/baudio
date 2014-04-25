@@ -6,6 +6,7 @@ var minimist = require('minimist');
 var parseDuration = require('parse-duration');
 var concat = require('concat-stream');
 var check = require('syntax-error');
+var resolve = require('resolve');
 var baudio = require('../');
 
 var argv = minimist(process.argv.slice(2), {
@@ -25,7 +26,15 @@ else if (!file) {
 else fromSource(fs.readFileSync(file, 'utf8'));
 
 function fromSource (src) {
-    var ctx = { Buffer: Buffer, console: console };
+    var ctx = {
+        Buffer: Buffer,
+        console: console,
+        require: function (m) {
+            return require(resolve.sync(m, {
+                basedir: path.dirname(file)
+            }));
+        }
+    };
     var err = check(src, file || '[stdin]');
     if (err) {
         console.error(err);
@@ -52,8 +61,8 @@ function fromSource (src) {
         : parseDuration(argv.t || '0')
     ;
     var opts = { rate: argv.rate };
-    if (opts.rate) opts.rate = opts.rate.replace(/k$/i, '000');;
-    if (opts.rate) opts.rate = opts.rate.replace(/hz$/i, '');;
+    if (opts.rate) opts.rate = String(opts.rate).replace(/k$/i, '000');
+    if (opts.rate) opts.rate = String(opts.rate).replace(/hz$/i, '');
     
     var b = baudio(opts, function (t, i) {
         if (duration && t * 1000 >= duration) b.end()

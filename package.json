@@ -15,7 +15,8 @@
     "minimist": "0.0.8",
     "parse-duration": "^0.1.0",
     "readable-stream": "~1.1.8",
-    "syntax-error": "^1.1.0"
+    "syntax-error": "^1.1.0",
+    "resolve": "^0.6.3"
   },
   "repository": {
     "type": "git",
