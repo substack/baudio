@@ -1,6 +1,9 @@
 var inherits = require('inherits');
 var Readable = require('readable-stream').Readable;
 var spawn = require('child_process').spawn;
+var nextTick = typeof setImmediate !== 'undefined'
+    ? setImmediate : process.nextTick
+;
 
 module.exports = function (opts, fn) {
     if (typeof opts === 'function') {
@@ -21,11 +24,13 @@ function B (opts, fn) {
     
     this.t = 0;
     this.i = 0;
+    
+    this._ticks = 0;
 }
 
 inherits(B, Readable);
 
-B.prototype._read = function (bytes) {
+B.prototype._read = function read (bytes) {
     if (!bytes) bytes = 4096;
     var self = this;
     
@@ -46,7 +51,9 @@ B.prototype._read = function (bytes) {
     self.i += buf.length / 2;
     self.t += buf.length / 2 / self.rate;
     
-    if (!self._ended) this.push(buf);
+    self._ticks ++;
+    if (!self._ended && self._ticks % 50) this.push(buf);
+    else nextTick(function () { self.push(buf) });
 };
 
 B.prototype.end = function () {
