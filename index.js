@@ -53,7 +53,7 @@ B.prototype._read = function read (bytes) {
     
     self._ticks ++;
     if (!self._ended && self._ticks % 50) this.push(buf);
-    else nextTick(function () { self.push(buf) });
+    else if (!self._ended) nextTick(function () { self.push(buf) });
 };
 
 B.prototype.end = function () {
