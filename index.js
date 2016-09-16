@@ -87,7 +87,7 @@ B.prototype.record = function (file, opts) {
         'c' : 1,
         'r' : this.rate,
         't' : 's16',
-    }).concat('-', '-q', '-o', file));
+    }).concat('-', '-q', file));
     
     this.pipe(ps.stdin);
     return ps;
