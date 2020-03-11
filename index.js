@@ -34,7 +34,7 @@ B.prototype._read = function read (bytes) {
     if (!bytes) bytes = 4096;
     var self = this;
     
-    var buf = new Buffer(Math.floor(bytes));
+    var buf = Buffer.alloc(Math.floor(bytes));
     function clamp (x) {
         return Math.max(Math.min(x, Math.pow(2,15)-1), -Math.pow(2,15));
     }
