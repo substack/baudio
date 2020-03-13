@@ -12,7 +12,7 @@
   "dependencies": {
     "concat-stream": "^1.4.4",
     "inherits": "~1.0.0",
-    "minimist": "0.0.8",
+    "minimist": "1.2.5",
     "parse-duration": "^0.1.0",
     "readable-stream": "~1.1.8",
     "syntax-error": "^1.1.0",
