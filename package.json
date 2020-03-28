@@ -1,6 +1,6 @@
 {
   "name": "baudio",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "generate audio streams with functions",
   "main": "index.js",
   "bin": {
